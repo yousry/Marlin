@@ -701,7 +701,8 @@
 
   #if ENABLED(ANYCUBIC_KOSSEL_PLUS)
     // Print surface diameter/2 minus unreachable space (avoid collisions with vertical towers).
-    #define DELTA_PRINTABLE_RADIUS 120.0  // (mm)
+    // Prevent collision between connectors/sensors and belts.    
+    #define DELTA_PRINTABLE_RADIUS 110.0  // (mm)
     // Center-to-center distance of the holes in the diagonal push rods.
     #define DELTA_DIAGONAL_ROD 267        // (mm)
       // Horizontal offset from middle of printer to smooth rod center.
