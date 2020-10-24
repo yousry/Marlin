@@ -1,0 +1,30 @@
+
+echo:; Filament settings: Disabled
+echo:  M200 S0 D1.75
+echo:; Steps per unit:
+echo: M92 X80.00 Y80.00 Z80.00 E418.00
+echo:; Maximum feedrates (units/s):
+echo:  M203 X100.00 Y100.00 Z100.00 E100.00
+echo:; Maximum Acceleration (units/s2):
+echo:  M201 X3000.00 Y3000.00 Z3000.00 E3000.00
+echo:; Acceleration (units/s2): P<print_accel> R<retract_accel> T<travel_accel>
+echo:  M204 P600.00 R3000.00 T1000.00
+echo:; Advanced: B<min_segment_time_us> S<min_feedrate> T<min_travel_feedrate> X<max_x_jerk> Y<max_y_jerk> Z<max_z_jerk> E<max_e_jerk>
+echo:  M205 B20000.00 S0.00 T0.00 X5.00 Y5.00 Z5.00 E5.00
+echo:; Auto Bed Leveling:
+echo:  M420 S0
+echo:; Endstop adjustment:
+echo:  M666 X-2.97 Y-1.14 Z0.00
+echo:; Delta settings: L<diagonal rod> R<radius> H<height> S<segments per sec> XYZ<tower angle trim> ABC<rod trim>
+echo:  M665 L267.00 R133.68 H288.20 S80.00 X1.26 Y-1.11 Z-0.15 A0.00 B0.00 C0.00
+echo:; Material heatup parameters:
+echo:  M145 S0 H190 B45 F255
+echo:  M145 S1 H240 B110 F255
+echo:; PID settings:
+echo:  M301 P11.24 I0.60 D52.71
+echo:  M304 P374.03 I72.47 D482.59
+echo:; Z-Probe Offset (mm):
+echo:  M851 X36.10 Y-27.20 Z-3.09
+echo:; Filament load/unload lengths:
+echo:  M603 L650.00 U750.00
+ok
