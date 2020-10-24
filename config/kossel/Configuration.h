@@ -1166,7 +1166,7 @@
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
 
 // Already subtracted from the printable "DELTA_PRINTABLE_RADIUS"
-#define PROBING_MARGIN 5
+#define PROBING_MARGIN 0
 
 // X and Y axis travel speed (mm/min) between probes
 #define XY_PROBE_SPEED (16*60)
