@@ -28,7 +28,8 @@
 #define ANYCUBIC_KOSSEL_PLUS
 
 // Anycubic Probe version 1 or 2 see README.md; 0 for no probe
-#define ANYCUBIC_PROBE_VERSION 2
+// 3 for bltouch
+#define ANYCUBIC_PROBE_VERSION 3
 
 // Heated Bed:
 // 0 ... no heated bed
@@ -769,11 +770,18 @@
 // Mechanical endstop with COM to ground and NC to Signal uses "false" here (most common setup).
 #define X_MIN_ENDSTOP_INVERTING false  // Set to true to invert the logic of the endstop.
 #define Y_MIN_ENDSTOP_INVERTING false  // Set to true to invert the logic of the endstop.
-#define Z_MIN_ENDSTOP_INVERTING (ANYCUBIC_PROBE_VERSION + 0 == 1) // V1 is NO, V2 is NC
+
+#if ANYCUBIC_PROBE_VERSION == 3
+  #define Z_MIN_ENDSTOP_INVERTING  false
+#else
+  #define Z_MIN_ENDSTOP_INVERTING (ANYCUBIC_PROBE_VERSION + 0 == 1) // V1 is NO, V2 is NC
+#endif
+
 #define X_MAX_ENDSTOP_INVERTING false  // Set to true to invert the logic of the endstop.
 #define Y_MAX_ENDSTOP_INVERTING false  // Set to true to invert the logic of the endstop.
 #define Z_MAX_ENDSTOP_INVERTING false  // Set to true to invert the logic of the endstop.
 #define Z_MIN_PROBE_ENDSTOP_INVERTING Z_MIN_ENDSTOP_INVERTING
+
 
 /**
  * Stepper Drivers
@@ -1010,7 +1018,7 @@
  * A Fix-Mounted Probe either doesn't deploy or needs manual deployment.
  *   (e.g., an inductive probe or a nozzle-based probe-switch.)
  */
-#if ANYCUBIC_PROBE_VERSION > 0
+#if ANYCUBIC_PROBE_VERSION > 0 && ANYCUBIC_PROBE_VERSION < 3
   #define FIX_MOUNTED_PROBE
 #endif
 
@@ -1023,7 +1031,10 @@
 /**
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
  */
-//#define BLTOUCH
+
+#if ANYCUBIC_PROBE_VERSION == 3
+  #define BLTOUCH
+#endif
 
 /**
  * Pressure sensor with a BLTouch-like interface
@@ -1139,7 +1150,9 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#if ANYCUBIC_PROBE_VERSION == 2
+#if ANYCUBIC_PROBE_VERSION == 3
+  #define NOZZLE_TO_PROBE_OFFSET { +36.1, -27.2, -2.1 }
+#elif ANYCUBIC_PROBE_VERSION == 2
   #define NOZZLE_TO_PROBE_OFFSET { 0, 0, -15.78 }
 #elif ANYCUBIC_PROBE_VERSION == 1
   #define NOZZLE_TO_PROBE_OFFSET { 0, 0, -19.0 }
