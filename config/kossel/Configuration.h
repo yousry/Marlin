@@ -869,7 +869,7 @@
 #define XYZ_MICROSTEPS 16
 #define XYZ_BELT_PITCH 2
 #define XYZ_PULLEY_TEETH 20
-#define DEFAULT_TITAN_EXTRUDER 418
+#define DEFAULT_TITAN_EXTRUDER 387
 
 // delta speeds must be the same on xyz
 #define DEFAULT_XYZ_STEPS_PER_UNIT ((XYZ_FULL_STEPS_PER_ROTATION) * (XYZ_MICROSTEPS) / double(XYZ_BELT_PITCH) / double(XYZ_PULLEY_TEETH)) // 80
@@ -1166,7 +1166,7 @@
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
 
 // Already subtracted from the printable "DELTA_PRINTABLE_RADIUS"
-#define PROBING_MARGIN 0
+#define PROBING_MARGIN 5
 
 // X and Y axis travel speed (mm/min) between probes
 #define XY_PROBE_SPEED (16*60)
