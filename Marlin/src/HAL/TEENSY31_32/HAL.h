@@ -50,14 +50,19 @@
   #define IS_TEENSY32 1
 #endif
 
-#define _MSERIAL(X) Serial##X
+#include "../../core/serial_hook.h"
+typedef Serial1Class<decltype(Serial)> DefaultSerial1;
+extern DefaultSerial1 MSerial0;
+typedef ForwardSerial1Class<decltype(SerialUSB)> USBSerialType;
+extern USBSerialType USBSerial;
+
+#define _MSERIAL(X) MSerial##X
 #define MSERIAL(X) _MSERIAL(X)
-#define Serial0 Serial
 
 #if SERIAL_PORT == -1
-  #define MYSERIAL0 SerialUSB
+  #define MYSERIAL1 USBSerial
 #elif WITHIN(SERIAL_PORT, 0, 3)
-  #define MYSERIAL0 MSERIAL(SERIAL_PORT)
+  #define MYSERIAL1 MSERIAL(SERIAL_PORT)
 #endif
 
 #define HAL_SERVO_LIB libServo
@@ -65,7 +70,7 @@
 typedef int8_t pin_t;
 
 #ifndef analogInputToDigitalPin
-  #define analogInputToDigitalPin(p) ((p < 12u) ? (p) + 54u : -1)
+  #define analogInputToDigitalPin(p) ((p < 12U) ? (p) + 54U : -1)
 #endif
 
 #define CRITICAL_SECTION_START()  uint32_t primask = __get_PRIMASK(); __disable_irq()
@@ -73,17 +78,6 @@ typedef int8_t pin_t;
 #define ISRS_ENABLED() (!__get_PRIMASK())
 #define ENABLE_ISRS()  __enable_irq()
 #define DISABLE_ISRS() __disable_irq()
-
-#ifndef strncpy_P
-  #define strncpy_P(dest, src, num) strncpy((dest), (src), (num))
-#endif
-
-// Fix bug in pgm_read_ptr
-#undef pgm_read_ptr
-#define pgm_read_ptr(addr) (*((void**)(addr)))
-// Add type-checking to pgm_read_word
-#undef pgm_read_word
-#define pgm_read_word(addr) (*((uint16_t*)(addr)))
 
 inline void HAL_init() {}
 
@@ -93,14 +87,20 @@ void HAL_clear_reset_source();
 // Get the reason for the reset
 uint8_t HAL_get_reset_source();
 
+inline void HAL_reboot() {}  // reboot the board or restart the bootloader
+
 FORCE_INLINE void _delay_ms(const int delay_ms) { delay(delay_ms); }
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-function"
-extern "C" {
-  int freeMemory();
-}
-#pragma GCC diagnostic pop
+#if GCC_VERSION <= 50000
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wunused-function"
+#endif
+
+extern "C" int freeMemory();
+
+#if GCC_VERSION <= 50000
+  #pragma GCC diagnostic pop
+#endif
 
 // ADC
 
